@@ -1,0 +1,9 @@
+Yeebase\Readiness\Eel\Helper\LockHelper:
+  properties:
+    lockCache:
+      object:
+        factoryObjectName: Neos\Flow\Cache\CacheManager
+        factoryMethodName: getCache
+        arguments:
+          1:
+            value: Yeebase_Readiness_Lock

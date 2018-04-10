@@ -1,0 +1,19 @@
+{
+    "description": "",
+    "type": "neos-yeebase",
+    "name": "yeebase/readiness",
+    "license": "MIT",
+    "require": {
+        "neos/flow": "^4.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yeebase\\Readiness\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "Yeebase.Readiness"
+        }
+    }
+}
