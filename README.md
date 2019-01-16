@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/yeebase/Yeebase.Readiness.svg?branch=master)](https://travis-ci.com/yeebase/Yeebase.Readiness)
+
 # Yeebase.Readiness
 Package to check the rediness of a flow application.
 
