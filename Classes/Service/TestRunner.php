@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Service;
 
 /**
@@ -20,12 +23,14 @@ class TestRunner extends AbstractTaskRunner
 {
     /**
      * @Flow\InjectConfiguration("testChain")
-     * @var array
+     *
+     * @var mixed[]
      */
     protected $chain;
 
     /**
      * @Flow\InjectConfiguration("defaultTestCondition")
+     *
      * @var string
      */
     protected $defaultCondition;
@@ -45,18 +50,12 @@ class TestRunner extends AbstractTaskRunner
      */
     protected $context = EelRuntime::CONTEXT_TEST;
 
-    /**
-     * @param \Closure $onBeforeTest
-     */
-    public function onBeforeTest(\Closure $onBeforeTest)
+    public function onBeforeTest(\Closure $onBeforeTest): void
     {
         $this->onBeforeTask($onBeforeTest);
     }
 
-    /**
-     * @param \Closure $onTestResult
-     */
-    public function onTestResult(\Closure $onTestResult)
+    public function onTestResult(\Closure $onTestResult): void
     {
         $this->onTaskResult($onTestResult);
     }

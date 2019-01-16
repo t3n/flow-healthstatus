@@ -2,9 +2,15 @@
     "description": "",
     "type": "neos-yeebase",
     "name": "yeebase/readiness",
+    "config": {
+        "bin-dir": "bin"
+    },
     "license": "MIT",
     "require": {
         "neos/flow": "~4.3 || ~5.0"
+    },
+    "require-dev": {
+        "t3n/coding-standard": "dev-master"
     },
     "autoload": {
         "psr-4": {

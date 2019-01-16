@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ruleset name="t3n-packages">
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="80"/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors"/>
+
+    <arg value="nps"/>
+    <file>Classes/</file>
+    <rule ref="t3n"/>
+
+</ruleset>

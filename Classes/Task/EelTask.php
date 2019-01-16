@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Task;
 
 /**
@@ -20,31 +23,31 @@ class EelTask extends AbstractTask
 {
     /**
      * @Flow\Inject
+     *
      * @var EelRuntime
      */
     protected $runtime;
 
     /**
      * @Flow\Inject
+     *
      * @var SystemLoggerInterface
      */
     protected $systemLoggerInterface;
 
     /**
-     * @param array $options
+     * @param mixed[] $options
+     *
      * @throws InvalidConfigurationException
      */
-    protected function validateOptions(array $options)
+    protected function validateOptions(array $options): void
     {
-        if (!isset($options['expression'])) {
+        if (! isset($options['expression'])) {
             throw new InvalidConfigurationException('"expression" not set', 1502701561);
         }
     }
 
-    /**
-     *
-     */
-    public function run()
+    public function run(): void
     {
         $this->runtime->evaluate($this->options['expression']);
     }

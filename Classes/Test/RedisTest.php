@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Test;
 
 /**
@@ -16,19 +19,17 @@ use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
 class RedisTest extends AbstractTest
 {
     /**
-     * @param array $options
+     * @param mixed[] $options
+     *
      * @throws InvalidConfigurationException
      */
-    protected function validateOptions(array $options)
+    protected function validateOptions(array $options): void
     {
-        if (!isset($options['hostname'])) {
+        if (! isset($options['hostname'])) {
             throw new InvalidConfigurationException('Redis readiness test needs a "hostname" option', 1502701659);
         }
     }
 
-    /**
-     * @return bool
-     */
     public function test(): bool
     {
         $redis = new \Redis();

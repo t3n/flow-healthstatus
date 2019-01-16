@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Test;
 
 /**
@@ -11,27 +14,26 @@ namespace Yeebase\Readiness\Test;
  * source code.
  */
 
-use Neos\Flow\Annotations as Flow;
 use Flowpack\ElasticSearch\Domain\Factory\ClientFactory as ElasticSearchFactory;
+use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 
 class ElasticSearchTest extends AbstractTest
 {
-
     /**
      * @Flow\Inject
+     *
      * @var ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
-     * @return bool
      * @throws InvalidConfigurationException
      */
     public function test(): bool
     {
-        if (!class_exists(ElasticSearchFactory::class)) {
+        if (! class_exists(ElasticSearchFactory::class)) {
             throw new InvalidConfigurationException('ElasticSearchTest depends on FlowPack\ElasticSearch', 1502795288);
         }
 

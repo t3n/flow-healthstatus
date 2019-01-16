@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Task;
 
 /**
@@ -13,42 +16,40 @@ namespace Yeebase\Readiness\Task;
 
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
 use Neos\Flow\Core\Booting\Exception\SubProcessException;
-use Neos\Flow\Core\Booting\Scripts;
 
 class RedisTask extends AbstractTask
 {
-
     /**
-     * @param array $options
+     * @param mixed[] $options
+     *
      * @throws InvalidConfigurationException
      */
-    protected function validateOptions(array $options)
+    protected function validateOptions(array $options): void
     {
-        if (!isset($options['hostname'])) {
+        if (! isset($options['hostname'])) {
             throw new InvalidConfigurationException('Redis readiness task needs a "hostname" option', 1502701659);
         }
 
-        if (!isset($options['database'])) {
+        if (! isset($options['database'])) {
             throw new InvalidConfigurationException('Redis readiness task needs a "database" option', 1502701660);
         }
 
-        if (!isset($options['command'])) {
+        if (! isset($options['command'])) {
             throw new InvalidConfigurationException('Redis readiness task needs a "command" option', 1502701661);
         }
     }
 
-
     /**
      * @throws SubProcessException
      */
-    public function run()
+    public function run(): void
     {
         $redis = new \Redis();
         $redis->connect($this->options['hostname']);
         $redis->select($this->options['database']);
         $success = $redis->rawCommand($this->options['command'], ...($this->options['arguments'] ?? []));
 
-        if (!$success) {
+        if (! $success) {
             throw new \RedisException($redis->getLastError());
         }
     }

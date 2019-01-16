@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Test;
 
 /**
@@ -15,8 +18,5 @@ use Yeebase\Readiness\Task\TaskInterface;
 
 interface TestInterface extends TaskInterface
 {
-    /**
-     * @return bool
-     */
     public function test(): bool;
 }

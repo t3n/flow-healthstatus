@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Service;
 
 /**
@@ -11,27 +14,28 @@ namespace Yeebase\Readiness\Service;
  * source code.
  */
 
-use Neos\Error\Messages\Result;
-use Neos\Flow\Annotations as Flow;
 use Neos\Eel\InterpretedEvaluator;
 use Neos\Eel\Utility as EelUtility;
+use Neos\Error\Messages\Result;
+use Neos\Flow\Annotations as Flow;
 
 /**
  * @Flow\Scope("singleton")
  */
 class EelRuntime
 {
-    const CONTEXT_TEST = 'test';
-    const CONTEXT_TASK = 'task';
+    public const CONTEXT_TEST = 'test';
+    public const CONTEXT_TASK = 'task';
 
     /**
      * @Flow\InjectConfiguration("defaultContext")
-     * @var array
+     *
+     * @var mixed[]
      */
     protected $eelContext;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $defaultContextVariables;
 
@@ -45,60 +49,44 @@ class EelRuntime
      */
     protected $chainResult;
 
-    /**
-     * @param string $taskContext
-     */
-    public function setTaskContext(string $taskContext)
+    public function setTaskContext(string $taskContext): void
     {
         $this->taskContext = $taskContext;
     }
 
-    /**
-     * @return bool
-     */
     public function isTaskContext(): bool
     {
         return $this->taskContext === self::CONTEXT_TASK;
     }
 
-    /**
-     * @return bool
-     */
     public function isTestContext(): bool
     {
         return $this->taskContext === self::CONTEXT_TEST;
     }
 
-    /**
-     * @param Result $chainResult
-     */
-    public function setChainResult(Result $chainResult)
+    public function setChainResult(Result $chainResult): void
     {
         $this->chainResult = $chainResult;
     }
 
-    /**
-     * @return Result
-     */
     public function getChainResult(): Result
     {
         return $this->chainResult;
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
-    protected function getDefaultContextVariables()
+    protected function getDefaultContextVariables(): array
     {
         if ($this->defaultContextVariables === null) {
-            $this->defaultContextVariables = array();
+            $this->defaultContextVariables = [];
             $this->defaultContextVariables = EelUtility::getDefaultContextVariables($this->eelContext);
         }
         return $this->defaultContextVariables;
     }
 
     /**
-     * @param string $expression
      * @return mixed
      */
     public function evaluate(string $expression)
