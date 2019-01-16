@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Command;
 
 /**
@@ -28,6 +31,7 @@ class AppCommandController extends CommandController
 {
     /**
      * @Flow\Inject
+     *
      * @var SystemLoggerInterface
      */
     protected $systemLogger;
@@ -38,13 +42,13 @@ class AppCommandController extends CommandController
     protected function runReadyTasks(): Result
     {
         $taskRunner = new ReadyTaskRunner();
-        $taskRunner->onBeforeTask(function (TaskInterface $task) {
+        $taskRunner->onBeforeTask(function (TaskInterface $task): void {
             $this->output('Executing %s... ', [$task->getName()]);
         });
-        $taskRunner->onTaskResult(function (TaskInterface $task, Result $result) {
+        $taskRunner->onTaskResult(function (TaskInterface $task, Result $result): void {
             if ($result->hasErrors()) {
                 $this->outputFormatted('<error>%s</error>', [$task->getErrorLabel()]);
-            } else if ($result->hasNotices()) {
+            } elseif ($result->hasNotices()) {
                 $this->outputFormatted('<comment>%s</comment>', [$task->getNoticeLabel()]);
             } else {
                 $this->outputFormatted('<success>%s</success>', [$task->getSuccessLabel()]);
@@ -53,7 +57,7 @@ class AppCommandController extends CommandController
 
         try {
             return $taskRunner->run();
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             $this->output->output('<error>%s</error>', [$exception->getMessage()]);
             $this->systemLogger->logException($exception);
             $result = new Result();
@@ -69,13 +73,13 @@ class AppCommandController extends CommandController
     {
         $testRunner = new TestRunner();
 
-        $testRunner->onBeforeTest(function (TestInterface $test) {
+        $testRunner->onBeforeTest(function (TestInterface $test): void {
             $this->output->output('Testing %s... ', [$test->getName()]);
         });
-        $testRunner->onTestResult(function (TestInterface $test, Result $result) {
+        $testRunner->onTestResult(function (TestInterface $test, Result $result): void {
             if ($result->hasErrors()) {
                 $this->output->outputLine('<error>%s</error>', [$test->getErrorLabel()]);
-            } else if ($result->hasNotices()) {
+            } elseif ($result->hasNotices()) {
                 $this->output->outputLine('<commment>%s</commment>', [$test->getNoticeLabel()]);
             } else {
                 $this->output->outputLine('<info>%s</info>', [$test->getSuccessLabel()]);
@@ -88,21 +92,21 @@ class AppCommandController extends CommandController
     /**
      * Checks the readiness of the application
      */
-    public function isReadyCommand()
+    public function isReadyCommand(): void
     {
         $this->outputLine();
         $this->outputLine('<info>Running tests...</info>');
         $this->outputLine();
         $testResult = $this->runTests();
         $this->outputLine();
-        if (!$testResult->hasErrors()) {
+        if (! $testResult->hasErrors()) {
             $this->outputLine();
             $this->outputLine('<info>All checks passed, executing ready tasks...</info>');
             $this->outputLine();
             $readyResult = $this->runReadyTasks();
             $this->outputLine();
 
-            if (!$readyResult->hasErrors()) {
+            if (! $readyResult->hasErrors()) {
                 $this->outputLine('<success>Application is ready</success>');
                 $this->outputLine();
                 $this->outputLine();

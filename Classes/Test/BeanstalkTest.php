@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Test;
 
 /**
@@ -17,19 +20,17 @@ use Pheanstalk\Pheanstalk;
 class BeanstalkTest extends AbstractTest
 {
     /**
-     * @param array $options
+     * @param mixed[] $options
+     *
      * @throws InvalidConfigurationException
      */
-    protected function validateOptions(array $options)
+    protected function validateOptions(array $options): void
     {
-        if (!isset($options['hostname'])) {
+        if (! isset($options['hostname'])) {
             throw new InvalidConfigurationException('Beanstalk readiness test needs a "hostname" option', 1502701630);
         }
     }
 
-    /**
-     * @return bool
-     */
     public function test(): bool
     {
         $beanstalkClient = new Pheanstalk($this->options['hostname']);

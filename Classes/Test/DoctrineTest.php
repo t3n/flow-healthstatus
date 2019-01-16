@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Test;
 
 /**
@@ -21,19 +24,11 @@ class DoctrineTest extends AbstractTest
      */
     private $entityManager;
 
-    /**
-     * @param DoctrineObjectManager $entityManager
-     * @return void
-     */
-    public function injectEntityManager(DoctrineObjectManager $entityManager)
+    public function injectEntityManager(DoctrineObjectManager $entityManager): void
     {
         $this->entityManager = $entityManager;
     }
 
-
-    /**
-     * @return bool
-     */
     public function test(): bool
     {
         $databaseConnection = $this->entityManager->getConnection();

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Task;
 
 /**
@@ -21,23 +24,26 @@ class CommandTask extends AbstractTask
 {
     /**
      * @Flow\InjectConfiguration(package="Neos.Flow")
-     * @var array
+     *
+     * @var mixed[]
      */
     protected $flowSettings;
 
     /**
      * @Flow\Inject
+     *
      * @var SystemLoggerInterface
      */
     protected $systemLogger;
 
     /**
-     * @param array $options
+     * @param mixed[] $options
+     *
      * @throws InvalidConfigurationException
      */
-    protected function validateOptions(array $options)
+    protected function validateOptions(array $options): void
     {
-        if (!isset($options['command'])) {
+        if (! isset($options['command'])) {
             throw new InvalidConfigurationException('"command" task needs a "command" option', 1502701492);
         }
     }
@@ -45,10 +51,10 @@ class CommandTask extends AbstractTask
     /**
      * @throws SubProcessException
      */
-    public function run()
+    public function run(): void
     {
         $success = Scripts::executeCommand($this->options['command'], $this->flowSettings, false, $this->options['arguments'] ?? []);
-        if (!$success) {
+        if (! $success) {
             throw new SubProcessException(sprintf('Command "%s" did not return true', $this->options['command']), 1511529104);
         }
     }

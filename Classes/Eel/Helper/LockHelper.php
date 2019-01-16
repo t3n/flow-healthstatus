@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Eel\Helper;
 
 /**
@@ -21,12 +24,14 @@ class LockHelper implements ProtectedContextAwareInterface
 {
     /**
      * @Flow\InjectConfiguration("lockPrefix")
+     *
      * @var string
      */
     protected $lockPrefix;
 
     /**
      * @Flow\InjectConfiguration("defaultCacheName")
+     *
      * @var string
      */
     protected $defaultCacheName;
@@ -38,28 +43,23 @@ class LockHelper implements ProtectedContextAwareInterface
 
     /**
      * @Flow\Inject
+     *
      * @var CacheManager
      */
     protected $cacheManager;
 
     /**
      * @Flow\Inject
+     *
      * @var EelRuntime
      */
     protected $runtime;
 
-    /**
-     * @param string $name
-     * @return string
-     */
     protected function getEntryIdentifier(string $name): string
     {
-        return (!empty($this->lockPrefix) ? $this->lockPrefix . '_' : '') . $name;
+        return (! empty($this->lockPrefix) ? $this->lockPrefix . '_' : '') . $name;
     }
 
-    /**
-     * @return FrontendInterface
-     */
     protected function getCache(): FrontendInterface
     {
         try {
@@ -72,7 +72,6 @@ class LockHelper implements ProtectedContextAwareInterface
     }
 
     /**
-     * @param string $cacheName
      * @return $this
      */
     public function withCache(string $cacheName)
@@ -81,46 +80,27 @@ class LockHelper implements ProtectedContextAwareInterface
         return $this;
     }
 
-    /**
-     * @param string $lockName
-     * @param string $value
-     */
-    public function set(string $lockName, string $value = '1')
+    public function set(string $lockName, string $value = '1'): void
     {
         $this->getCache()->set($this->getEntryIdentifier($lockName), $value, [], 0);
     }
 
-    /**
-     * @param string $lockName
-     */
-    public function unset(string $lockName)
+    public function unset(string $lockName): void
     {
         $this->getCache()->remove($this->getEntryIdentifier($lockName));
     }
 
-    /**
-     * @param string $lockName
-     * @return bool
-     */
-    public function isSet(string $lockName)
+    public function isSet(string $lockName): bool
     {
         return $this->getCache()->has($this->getEntryIdentifier($lockName));
     }
 
-    /**
-     * @param string $lockName
-     * @return bool
-     */
-    public function isUnset(string $lockName)
+    public function isUnset(string $lockName): bool
     {
-        return !$this->isSet($lockName);
+        return ! $this->isSet($lockName);
     }
 
-    /**
-     * @param string $methodName
-     * @return boolean
-     */
-    public function allowsCallOfMethod($methodName)
+    public function allowsCallOfMethod(string $methodName): bool
     {
         return substr($methodName, 0, 2) === 'is' || $this->runtime->isTaskContext();
     }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Eel\Helper;
 
 /**
@@ -11,56 +14,43 @@ namespace Yeebase\Readiness\Eel\Helper;
  * source code.
  */
 
+use Neos\Eel\ProtectedContextAwareInterface;
 use Neos\Error\Messages\Error;
 use Neos\Flow\Annotations as Flow;
-use Neos\Eel\ProtectedContextAwareInterface;
 use Yeebase\Readiness\Service\EelRuntime;
 
 class ChainHelper implements ProtectedContextAwareInterface
 {
-
     /**
      * @Flow\Inject
+     *
      * @var EelRuntime
      */
     protected $runtime;
 
-    /**
-     * @return bool
-     */
     public function isValid(): bool
     {
         $result = $this->runtime->getChainResult();
-        return !$result->hasErrors();
+        return ! $result->hasErrors();
     }
 
-    /**
-     * @return bool
-     */
     public function isInvalid(): bool
     {
         $result = $this->runtime->getChainResult();
         return $result->hasErrors();
     }
 
-    /**
-     * @return string
-     */
     public function getCombinedErrorMessages(): string
     {
         $result = $this->runtime->getChainResult();
-        $messages = array_map(function (Error $error) {
+        $messages = array_map(static function (Error $error) {
             return $error->getMessage();
         }, $result->getErrors());
 
         return implode(PHP_EOL, $messages);
     }
 
-    /**
-     * @param string $methodName
-     * @return boolean
-     */
-    public function allowsCallOfMethod($methodName)
+    public function allowsCallOfMethod(string $methodName): bool
     {
         return $this->runtime->isTaskContext();
     }

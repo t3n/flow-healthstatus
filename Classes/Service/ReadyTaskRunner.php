@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Service;
 
 /**
@@ -11,22 +14,21 @@ namespace Yeebase\Readiness\Service;
  * source code.
  */
 
-use Neos\Flow\Annotations as Flow;
 use Neos\Error\Messages\Result;
+use Neos\Flow\Annotations as Flow;
 
-/**
- *
- */
 class ReadyTaskRunner extends AbstractTaskRunner
 {
     /**
      * @Flow\InjectConfiguration("readyChain")
-     * @var array
+     *
+     * @var mixed[]
      */
     protected $chain;
 
     /**
      * @Flow\InjectConfiguration("defaultReadyTaskCondition")
+     *
      * @var string
      */
     protected $defaultCondition;
@@ -37,9 +39,7 @@ class ReadyTaskRunner extends AbstractTaskRunner
     protected $context = EelRuntime::CONTEXT_TASK;
 
     /**
-     * @param string $name
-     * @param array $configuration
-     * @return Result
+     * @param mixed[] $configuration
      */
     protected function runTask(string $name, array $configuration): Result
     {

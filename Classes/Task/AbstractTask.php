@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Task;
 
 /**
@@ -21,7 +24,7 @@ abstract class AbstractTask implements TaskInterface
     protected $name;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $options;
 
@@ -30,10 +33,8 @@ abstract class AbstractTask implements TaskInterface
      */
     protected $result;
 
-
     /**
-     * @param string $name
-     * @param array $options
+     * @param mixed[] $options
      */
     public function __construct(string $name, array $options = [])
     {
@@ -44,56 +45,41 @@ abstract class AbstractTask implements TaskInterface
     }
 
     /**
-     * @param array $options
+     * @param mixed[] $options
      */
-    protected function validateOptions(array $options)
+    protected function validateOptions(array $options): void
     {
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getSuccessLabel(): string
     {
         return 'Done';
     }
 
-    /**
-     * @return string
-     */
     public function getErrorLabel(): string
     {
         $error = $this->result->getFirstError();
         return $error ? $error->getMessage() : 'Failed';
     }
 
-    /**
-     * @return string
-     */
     public function getNoticeLabel(): string
     {
         return $this->result->getFirstNotice()->getMessage();
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getOptions(): array
     {
         return $this->options;
     }
 
-    /**
-     * @return Result
-     */
     public function getResult(): Result
     {
         return $this->result;

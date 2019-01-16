@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Test;
 
 /**
@@ -19,24 +22,23 @@ class EelTest extends AbstractTest
 {
     /**
      * @Flow\Inject
+     *
      * @var EelRuntime
      */
     protected $runtime;
 
     /**
-     * @param array $options
+     * @param mixed[] $options
+     *
      * @throws InvalidConfigurationException
      */
-    protected function validateOptions(array $options)
+    protected function validateOptions(array $options): void
     {
-        if (!isset($options['expression'])) {
+        if (! isset($options['expression'])) {
             throw new InvalidConfigurationException('"expression" not set', 1502701561);
         }
     }
 
-    /**
-     * @return bool
-     */
     public function test(): bool
     {
         $this->runtime->setTaskContext('test');

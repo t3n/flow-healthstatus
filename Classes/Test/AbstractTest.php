@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Test;
 
 /**
@@ -16,20 +19,14 @@ use Yeebase\Readiness\Task\AbstractTask;
 
 abstract class AbstractTest extends AbstractTask implements TestInterface
 {
-    /**
-     * @return void
-     */
-    final public function run()
+    final public function run(): void
     {
         $passed = $this->test();
-        if (!$passed) {
+        if (! $passed) {
             $this->result->addError(new Error($this->getErrorLabel()));
         }
     }
 
-    /**
-     * @return string
-     */
     public function getSuccessLabel(): string
     {
         return 'Ready';

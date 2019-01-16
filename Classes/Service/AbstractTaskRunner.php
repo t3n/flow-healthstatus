@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Service;
 
 /**
@@ -13,21 +16,19 @@ namespace Yeebase\Readiness\Service;
 
 use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Notice;
-use Neos\Flow\Annotations as Flow;
 use Neos\Error\Messages\Result;
+use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
 use Neos\Flow\Log\SystemLoggerInterface;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use Neos\Utility\PositionalArraySorter;
 use Yeebase\Readiness\Task\TaskInterface;
 
-/**
- *
- */
 abstract class AbstractTaskRunner
 {
     /**
      * @Flow\Inject
+     *
      * @var SystemLoggerInterface
      */
     protected $systemLogger;
@@ -59,7 +60,7 @@ abstract class AbstractTaskRunner
     protected $defaultCondition;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $chain = [];
 
@@ -75,6 +76,7 @@ abstract class AbstractTaskRunner
 
     /**
      * @Flow\Inject
+     *
      * @var EelRuntime
      */
     protected $runtime;
@@ -84,27 +86,20 @@ abstract class AbstractTaskRunner
      */
     protected $stopOnFail = false;
 
-    /**
-     * @param ObjectManagerInterface $objectManager
-     */
-    public function injectObjectManager(ObjectManagerInterface $objectManager)
+    public function injectObjectManager(ObjectManagerInterface $objectManager): void
     {
         $this->objectManager = $objectManager;
     }
 
-    /**
-     *
-     */
     public function __construct()
     {
-        $this->onTaskResultClosure = function () {
+        $this->onTaskResultClosure = static function (): void {
         };
-        $this->onBeforeTaskClosure = function () {
+        $this->onBeforeTaskClosure = static function (): void {
         };
     }
 
     /**
-     * @param \Closure $onTaskResultClosure
      * @return $this
      */
     public function onTaskResult(\Closure $onTaskResultClosure)
@@ -114,7 +109,6 @@ abstract class AbstractTaskRunner
     }
 
     /**
-     * @param \Closure $onBeforeTaskClosure
      * @return $this
      */
     public function onBeforeTask(\Closure $onBeforeTaskClosure)
@@ -123,10 +117,6 @@ abstract class AbstractTaskRunner
         return $this;
     }
 
-    /**
-     * @param string $objectName
-     * @return string
-     */
     protected function resolveTaskClassName(string $objectName): string
     {
         if ($this->objectManager->isRegistered($objectName)) {
@@ -137,21 +127,17 @@ abstract class AbstractTaskRunner
     }
 
     /**
-     * @param TaskInterface $task
-     * @param array $configuration
-     * @return bool
+     * @param mixed[] $configuration
      */
     protected function shouldSkipTask(TaskInterface $task, array $configuration): bool
     {
-        return !$this->runtime->evaluate($configuration['condition'] ?? $this->defaultCondition);
+        return ! $this->runtime->evaluate($configuration['condition'] ?? $this->defaultCondition);
     }
 
-
     /**
-     * @param TaskInterface $task
-     * @param array $configuration
+     * @param mixed[] $configuration
      */
-    protected function afterTaskInvocation(TaskInterface $task, array $configuration)
+    protected function afterTaskInvocation(TaskInterface $task, array $configuration): void
     {
         if (isset($configuration['afterInvocation'])) {
             $this->runtime->evaluate($configuration['afterInvocation']);
@@ -159,9 +145,8 @@ abstract class AbstractTaskRunner
     }
 
     /**
-     * @param string $name
-     * @param array $configuration
-     * @return Result
+     * @param mixed[] $configuration
+     *
      * @throws InvalidConfigurationException
      */
     protected function runTask(string $name, array $configuration): Result
@@ -171,8 +156,9 @@ abstract class AbstractTaskRunner
 
         $task = new $className($name, $configuration['options'] ?? []);
 
-        if (!($task instanceof TaskInterface)) {
-            throw new InvalidConfigurationException(sprintf('%s does not implement \Yeebase\Readiness\Task\TaskInterface', get_class($task)), 1502699058);
+        if (! ($task instanceof TaskInterface)) {
+            $message = sprintf('%s does not implement \Yeebase\Readiness\Task\TaskInterface', get_class($task));
+            throw new InvalidConfigurationException($message, 1502699058);
         }
 
         $onBeforeTask = $this->onBeforeTaskClosure;
@@ -186,7 +172,7 @@ abstract class AbstractTaskRunner
                 $task->run();
                 $this->afterTaskInvocation($task, $configuration);
             }
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             $result->addError(new Error($exception->getMessage(), $exception->getCode()));
             $this->systemLogger->logException($exception);
         }
@@ -197,9 +183,6 @@ abstract class AbstractTaskRunner
         return $result;
     }
 
-    /**
-     * @return Result
-     */
     public function run(): Result
     {
         $this->chainResult = new Result();

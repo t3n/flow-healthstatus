@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Yeebase\Readiness\Task;
 
 /**
@@ -15,38 +18,20 @@ use Neos\Error\Messages\Result;
 
 interface TaskInterface
 {
-    /**
-     * @return void
-     */
-    public function run();
+    public function run(): void;
 
-    /**
-     * @return Result
-     */
     public function getResult(): Result;
 
-    /**
-     * @return string
-     */
     public function getName(): string;
 
-    /**
-     * @return string
-     */
     public function getSuccessLabel(): string;
 
-    /**
-     * @return string
-     */
     public function getErrorLabel(): string;
 
-    /**
-     * @return string
-     */
     public function getNoticeLabel(): string;
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getOptions(): array;
 }

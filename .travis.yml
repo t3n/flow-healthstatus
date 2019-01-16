@@ -1,0 +1,10 @@
+language: php
+php:
+  - 7.2
+
+install:
+  - composer selfupdate
+  - composer --ignore-platform-reqs install
+
+script:
+  - bin/phpcs
