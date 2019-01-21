@@ -1,0 +1,5 @@
+Neos:
+  Flow:
+    reflection:
+      ignoredTags:
+        'phpcsSuppress': TRUE
