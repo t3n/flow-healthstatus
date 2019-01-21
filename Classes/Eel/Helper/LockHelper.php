@@ -100,7 +100,10 @@ class LockHelper implements ProtectedContextAwareInterface
         return ! $this->isSet($lockName);
     }
 
-    public function allowsCallOfMethod(string $methodName): bool
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     */
+    public function allowsCallOfMethod($methodName): bool
     {
         return substr($methodName, 0, 2) === 'is' || $this->runtime->isTaskContext();
     }

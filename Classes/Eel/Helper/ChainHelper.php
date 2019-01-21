@@ -50,7 +50,10 @@ class ChainHelper implements ProtectedContextAwareInterface
         return implode(PHP_EOL, $messages);
     }
 
-    public function allowsCallOfMethod(string $methodName): bool
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     */
+    public function allowsCallOfMethod($methodName): bool
     {
         return $this->runtime->isTaskContext();
     }
