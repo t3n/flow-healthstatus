@@ -3,10 +3,11 @@
 # Yeebase.Readiness
 Package to check the rediness of a flow application.
 
-Useful in a kubernetes [readiness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
-to determine if a pod can serve traffic.
+Useful in a kubernetes [readiness and liveness probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/)
+to determine if a pod can serve traffic and is alive.
 
 ## Usage
+### Readiness
 Simply execute the flow command `./flow app:isready`.
 
 This will execute all tests defined in the `Yeebase.Readiness.testChain` of the Settings.yaml.
@@ -16,6 +17,12 @@ After a successfully run of the ready chain an internal lock will be set to prev
 so only the `readyChain` will be executed again. The `testChain` will be executed on every run.
 So the readyChain should bring your application in an "ready state". Make sure to initialize everything you need. 
 The testChain should ping all services your application depends on.
+### Liveness
+Execute `./flow app:isalive` to check if your pod is still alive.
+
+This will execute the `Yeebase.Readiness.livenessChain`.
+
+Currently the liveness chain is empty by default and has one possible test: `statusCode`. 
 
 ## Configuration
 Add all your tests in the following format in your apps Settings.yaml:
@@ -45,6 +52,20 @@ Yeebase:
           key: 'value' // optional options for your task
         position: 'after otherTaskKey' / optional position
         lockName: 'mylock' // optional lock override. This will create a lock for this task only and ignore the global lock
+```
+
+After a successful ready chain invokation, you can call `./flow app:isalive` to execute your liveness chain:
+
+```yaml
+Yeebase:
+  Readiness:
+    livenessChain:
+      yourUniqueTestKey:
+        name: 'Optional name'
+        task: 'statusCode' // shorthand for a predefined task in Yeebase\Readiness\LivenessTest\*.Test or a full qualified class name
+        options:
+          key: 'value' // optional options for your task
+        position: 'after otherTaskKey' / optional position
 ```
 
 ## Advanced configuration
@@ -113,6 +134,14 @@ Yeebase:
           command: 'neos.flow:resource:publish'
           arguments:
             collection: static
+    livenessChain:
+      home:
+        task: statusCode
+        name: 'Homepage responds'
+        options:
+          url: '/'
+          method: 'GET'
+          statusCode: 200
 ```
 
 Note the `lockname` configuration. This Configuration enables you to run tasks only once per deployment or always.
