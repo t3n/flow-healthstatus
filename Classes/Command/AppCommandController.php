@@ -18,7 +18,7 @@ use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Result;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
-use Neos\Flow\Log\SystemLoggerInterface;
+use Neos\Flow\Log\ThrowableStorageInterface;
 use Yeebase\Readiness\Service\LivenessTestRunner;
 use Yeebase\Readiness\Service\ReadyTaskRunner;
 use Yeebase\Readiness\Service\TestRunner;
@@ -33,9 +33,9 @@ class AppCommandController extends CommandController
     /**
      * @Flow\Inject
      *
-     * @var SystemLoggerInterface
+     * @var ThrowableStorageInterface
      */
-    protected $systemLogger;
+    protected $throwableStorage;
 
     protected function runReadyTasks(): Result
     {
@@ -57,7 +57,7 @@ class AppCommandController extends CommandController
             return $taskRunner->run();
         } catch (\Throwable $exception) {
             $this->output->output('<error>%s</error>', [$exception->getMessage()]);
-            $this->systemLogger->logException($exception);
+            $this->throwableStorage->logThrowable($exception);
             $result = new Result();
             $result->addError(new Error('Chain failed'));
             return $result;
