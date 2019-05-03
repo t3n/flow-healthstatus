@@ -1,4 +1,4 @@
-Yeebase\Readiness\Eel\Helper\LockHelper:
+t3n\Flow\HealthStatus\Eel\Helper\LockHelper:
   properties:
     lockCache:
       object:
@@ -6,4 +6,4 @@ Yeebase\Readiness\Eel\Helper\LockHelper:
         factoryMethodName: getCache
         arguments:
           1:
-            value: Yeebase_Readiness_Lock
+            value: t3n_FlowHealthStatus_Lock

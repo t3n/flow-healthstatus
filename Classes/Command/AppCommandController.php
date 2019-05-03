@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yeebase\Readiness\Command;
+namespace t3n\Flow\HealthStatus\Command;
 
 /**
- * This file is part of the Yeebase.Readiness package.
+ * This file is part of the t3n.Flow.HealthStatus package.
  *
  * (c) 2018 yeebase media GmbH
  *
@@ -19,11 +19,11 @@ use Neos\Error\Messages\Result;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
 use Neos\Flow\Log\ThrowableStorageInterface;
-use Yeebase\Readiness\Service\LivenessTestRunner;
-use Yeebase\Readiness\Service\ReadyTaskRunner;
-use Yeebase\Readiness\Service\TestRunner;
-use Yeebase\Readiness\Task\TaskInterface;
-use Yeebase\Readiness\Test\TestInterface;
+use t3n\Flow\HealthStatus\Service\LivenessTestRunner;
+use t3n\Flow\HealthStatus\Service\ReadyTaskRunner;
+use t3n\Flow\HealthStatus\Service\TestRunner;
+use t3n\Flow\HealthStatus\Task\TaskInterface;
+use t3n\Flow\HealthStatus\Test\TestInterface;
 
 /**
  * @Flow\Scope("singleton")

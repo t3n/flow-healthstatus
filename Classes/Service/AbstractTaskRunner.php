@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yeebase\Readiness\Service;
+namespace t3n\Flow\HealthStatus\Service;
 
 /**
- * This file is part of the Yeebase.XY package.
+ * This file is part of the t3n.Flow.HealthStatus package.
  *
  * (c) 2018 yeebase media GmbH
  *
@@ -22,7 +22,7 @@ use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
 use Neos\Flow\Log\SystemLoggerInterface;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use Neos\Utility\PositionalArraySorter;
-use Yeebase\Readiness\Task\TaskInterface;
+use t3n\Flow\HealthStatus\Task\TaskInterface;
 
 abstract class AbstractTaskRunner
 {
@@ -51,7 +51,7 @@ abstract class AbstractTaskRunner
     /**
      * @var string
      */
-    protected $defaultTaskClassName = 'Yeebase\Readiness\Task\%sTask';
+    protected $defaultTaskClassName = 't3n\Flow\HealthStatus\Task\%sTask';
 
 
     /**
@@ -157,7 +157,7 @@ abstract class AbstractTaskRunner
         $task = new $className($name, $configuration['options'] ?? []);
 
         if (! ($task instanceof TaskInterface)) {
-            $message = sprintf('%s does not implement \Yeebase\Readiness\Task\TaskInterface', get_class($task));
+            $message = sprintf('%s does not implement \t3n\Flow\HealthStatus\Task\TaskInterface', get_class($task));
             throw new InvalidConfigurationException($message, 1502699058);
         }
 

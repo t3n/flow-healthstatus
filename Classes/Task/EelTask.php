@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yeebase\Readiness\Task;
+namespace t3n\Flow\HealthStatus\Task;
 
 /**
- * This file is part of the Yeebase.XY package.
+ * This file is part of the t3n.Flow.HealthStatus package.
  *
  * (c) 2018 yeebase media GmbH
  *
@@ -17,7 +17,7 @@ namespace Yeebase\Readiness\Task;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
 use Neos\Flow\Log\SystemLoggerInterface;
-use Yeebase\Readiness\Service\EelRuntime;
+use t3n\Flow\HealthStatus\Service\EelRuntime;
 
 class EelTask extends AbstractTask
 {

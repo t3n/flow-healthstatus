@@ -1,58 +1,59 @@
-Yeebase:
-  Readiness:
-    lockPrefix: 'app'
-    defaultReadyTaskCondition: '${Lock.isUnset("ready")}'
-    defaultTestCondition: '${true}'
-    defaultCacheName: 'Yeebase_Readiness_Lock'
+t3n:
+  Flow:
+    HealthStatus:
+      lockPrefix: 'app'
+      defaultReadyTaskCondition: '${Lock.isUnset("ready")}'
+      defaultTestCondition: '${true}'
+      defaultCacheName: 't3n_FlowHealthStatus_Lock'
 
-    defaultContext:
-      Lock: 'Yeebase\Readiness\Eel\Helper\LockHelper'
-      Chain: 'Yeebase\Readiness\Eel\Helper\ChainHelper'
+      defaultContext:
+        Lock: 't3n\Flow\HealthStatus\Eel\Helper\LockHelper'
+        Chain: 't3n\Flow\HealthStatus\Eel\Helper\ChainHelper'
 
-    testChain:
-      readinessFailed:
-        name: 'Readiness did not previously fail'
-        test: 'eel'
-        options:
-          expression: '${Lock.isUnset("failed")}'
-        position: 'start 1000'
+      testChain:
+        readinessFailed:
+          name: 'Readiness did not previously fail'
+          test: 'eel'
+          options:
+            expression: '${Lock.isUnset("failed")}'
+          position: 'start 1000'
 
-      readinessInProgress:
-        name: 'Readiness chain finished or not yet started'
-        test: 'eel'
-        options:
-          expression: '${Lock.isUnset("busy")}'
-        position: 'end 1000'
+        readinessInProgress:
+          name: 'Readiness chain finished or not yet started'
+          test: 'eel'
+          options:
+            expression: '${Lock.isUnset("busy")}'
+          position: 'end 1000'
 
-    readyChain:
-      lockProgress:
-        name: 'Set progress lock'
-        task: 'eel'
-        options:
-          expression: '${Lock.set("busy")}'
-        position: 'start 1000'
+      readyChain:
+        lockProgress:
+          name: 'Set progress lock'
+          task: 'eel'
+          options:
+            expression: '${Lock.set("busy")}'
+          position: 'start 1000'
 
-      unlockProgress:
-        name: 'Remove progress lock'
-        task: 'eel'
-        options:
-          expression: '${Lock.unset("busy")}'
-        position: 'end 1000'
+        unlockProgress:
+          name: 'Remove progress lock'
+          task: 'eel'
+          options:
+            expression: '${Lock.unset("busy")}'
+          position: 'end 1000'
 
-      lockReady:
-        name: 'Set ready lock'
-        task: 'eel'
-        condition: '${Chain.isValid() && Lock.isUnset("ready")}'
-        options:
-          expression: '${Lock.set("ready")}'
-        position: 'end 1001'
+        lockReady:
+          name: 'Set ready lock'
+          task: 'eel'
+          condition: '${Chain.isValid() && Lock.isUnset("ready")}'
+          options:
+            expression: '${Lock.set("ready")}'
+          position: 'end 1001'
 
-      lockFailed:
-        name: 'Set failed lock if necessary'
-        task: 'eel'
-        condition: '${Chain.isInvalid() && Lock.isUnset("ready")}'
-        options:
-          expression: '${Lock.set("failed", Chain.getCombinedErrorMessages())}'
-        position: 'end 1002'
+        lockFailed:
+          name: 'Set failed lock if necessary'
+          task: 'eel'
+          condition: '${Chain.isInvalid() && Lock.isUnset("ready")}'
+          options:
+            expression: '${Lock.set("failed", Chain.getCombinedErrorMessages())}'
+          position: 'end 1002'
 
-    livenessChain: []
+      livenessChain: []

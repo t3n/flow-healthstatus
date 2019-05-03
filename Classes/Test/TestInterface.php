@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yeebase\Readiness\Test;
+namespace t3n\Flow\HealthStatus\Test;
 
 /**
- * This file is part of the Yeebase.XY package.
+ * This file is part of the t3n.Flow.HealthStatus package.
  *
  * (c) 2018 yeebase media GmbH
  *
@@ -14,7 +14,7 @@ namespace Yeebase\Readiness\Test;
  * source code.
  */
 
-use Yeebase\Readiness\Task\TaskInterface;
+use t3n\Flow\HealthStatus\Task\TaskInterface;
 
 interface TestInterface extends TaskInterface
 {

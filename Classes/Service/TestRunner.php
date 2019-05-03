@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yeebase\Readiness\Service;
+namespace t3n\Flow\HealthStatus\Service;
 
 /**
- * This file is part of the Yeebase.XY package.
+ * This file is part of the t3n.Flow.HealthStatus package.
  *
  * (c) 2018 yeebase media GmbH
  *
@@ -38,7 +38,7 @@ class TestRunner extends AbstractTaskRunner
     /**
      * @var string
      */
-    protected $defaultTaskClassName = 'Yeebase\Readiness\Test\%sTest';
+    protected $defaultTaskClassName = 't3n\Flow\HealthStatus\Test\%sTest';
 
     /**
      * @var bool

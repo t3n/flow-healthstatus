@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yeebase\Readiness\Test;
+namespace t3n\Flow\HealthStatus\Test;
 
 /**
- * This file is part of the Yeebase.XY package.
+ * This file is part of the t3n.Flow.HealthStatus package.
  *
  * (c) 2018 yeebase media GmbH
  *
@@ -16,7 +16,7 @@ namespace Yeebase\Readiness\Test;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
-use Yeebase\Readiness\Service\EelRuntime;
+use t3n\Flow\HealthStatus\Service\EelRuntime;
 
 class EelTest extends AbstractTest
 {

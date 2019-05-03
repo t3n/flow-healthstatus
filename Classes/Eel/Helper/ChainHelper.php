@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yeebase\Readiness\Eel\Helper;
+namespace t3n\Flow\HealthStatus\Eel\Helper;
 
 /**
- * This file is part of the Yeebase.XY package.
+ * This file is part of the t3n.Flow.HealthStatus package.
  *
  * (c) 2018 yeebase media GmbH
  *
@@ -17,7 +17,7 @@ namespace Yeebase\Readiness\Eel\Helper;
 use Neos\Eel\ProtectedContextAwareInterface;
 use Neos\Error\Messages\Error;
 use Neos\Flow\Annotations as Flow;
-use Yeebase\Readiness\Service\EelRuntime;
+use t3n\Flow\HealthStatus\Service\EelRuntime;
 
 class ChainHelper implements ProtectedContextAwareInterface
 {
