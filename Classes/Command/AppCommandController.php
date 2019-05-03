@@ -18,7 +18,8 @@ use Neos\Error\Messages\Error;
 use Neos\Error\Messages\Result;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
-use Neos\Flow\Log\SystemLoggerInterface;
+use Neos\Flow\Log\ThrowableStorageInterface;
+use Yeebase\Readiness\Service\LivenessTestRunner;
 use Yeebase\Readiness\Service\ReadyTaskRunner;
 use Yeebase\Readiness\Service\TestRunner;
 use Yeebase\Readiness\Task\TaskInterface;
@@ -32,13 +33,10 @@ class AppCommandController extends CommandController
     /**
      * @Flow\Inject
      *
-     * @var SystemLoggerInterface
+     * @var ThrowableStorageInterface
      */
-    protected $systemLogger;
+    protected $throwableStorage;
 
-    /**
-     * @return Result
-     */
     protected function runReadyTasks(): Result
     {
         $taskRunner = new ReadyTaskRunner();
@@ -59,20 +57,36 @@ class AppCommandController extends CommandController
             return $taskRunner->run();
         } catch (\Throwable $exception) {
             $this->output->output('<error>%s</error>', [$exception->getMessage()]);
-            $this->systemLogger->logException($exception);
+            $this->throwableStorage->logThrowable($exception);
             $result = new Result();
             $result->addError(new Error('Chain failed'));
             return $result;
         }
     }
 
-    /**
-     * @return Result
-     */
     protected function runTests(): Result
     {
         $testRunner = new TestRunner();
 
+        $testRunner->onBeforeTest(function (TestInterface $test): void {
+            $this->output->output('Testing %s... ', [$test->getName()]);
+        });
+        $testRunner->onTestResult(function (TestInterface $test, Result $result): void {
+            if ($result->hasErrors()) {
+                $this->output->outputLine('<error>%s</error>', [$test->getErrorLabel()]);
+            } elseif ($result->hasNotices()) {
+                $this->output->outputLine('<commment>%s</commment>', [$test->getNoticeLabel()]);
+            } else {
+                $this->output->outputLine('<info>%s</info>', [$test->getSuccessLabel()]);
+            }
+        });
+
+        return $testRunner->run();
+    }
+
+    protected function runLivenessTests(): Result
+    {
+        $testRunner = new LivenessTestRunner();
         $testRunner->onBeforeTest(function (TestInterface $test): void {
             $this->output->output('Testing %s... ', [$test->getName()]);
         });
@@ -120,6 +134,28 @@ class AppCommandController extends CommandController
         } else {
             $this->outputLine();
             $this->outputLine('<error>Application did not pass all checks and is not ready</error>');
+            $this->outputLine();
+            $this->quit(1);
+        }
+    }
+
+    /**
+     * Checks the liveness of the application
+     */
+    public function isAliveCommand(): void
+    {
+        $this->outputLine();
+        $this->outputLine('<info>Running liveness tests...</info>');
+        $this->outputLine();
+        $testResult = $this->runLivenessTests();
+        $this->outputLine();
+
+        if (! $testResult->hasErrors()) {
+            $this->outputLine('<success>Application is alive</success>');
+            $this->outputLine();
+            $this->quit(1);
+        } else {
+            $this->outputLine('<error>Application is dead</error>');
             $this->outputLine();
             $this->quit(1);
         }

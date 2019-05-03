@@ -54,3 +54,5 @@ Yeebase:
         options:
           expression: '${Lock.set("failed", Chain.getCombinedErrorMessages())}'
         position: 'end 1002'
+
+    livenessChain: []
