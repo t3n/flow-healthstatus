@@ -7,7 +7,7 @@
     },
     "license": "MIT",
     "require": {
-        "neos/flow": "~4.3 || ~5.0"
+        "neos/flow": "^6.0.2"
     },
     "require-dev": {
         "t3n/coding-standard": "~1.0.0"
