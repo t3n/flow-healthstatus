@@ -41,6 +41,7 @@ jobs:
           cp flow-healthstatus/composer.json.ci composer.json
           cp flow-healthstatus/phpcs.xml.dist phpcs.xml.dist
           composer update
+          ./flow help
       - save_cache: *save_composer_cache
       - persist_to_workspace: *persist_to_workspace
 
