@@ -18,7 +18,6 @@ use Neos\FLow\Annotations as Flow;
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
 use Neos\Flow\Core\Booting\Exception\SubProcessException;
 use Neos\Flow\Core\Booting\Scripts;
-use Neos\Flow\Log\SystemLoggerInterface;
 
 class CommandTask extends AbstractTask
 {
@@ -28,13 +27,6 @@ class CommandTask extends AbstractTask
      * @var mixed[]
      */
     protected $flowSettings;
-
-    /**
-     * @Flow\Inject
-     *
-     * @var SystemLoggerInterface
-     */
-    protected $systemLogger;
 
     /**
      * @param mixed[] $options

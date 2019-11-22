@@ -16,7 +16,6 @@ namespace t3n\Flow\HealthStatus\Task;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
-use Neos\Flow\Log\SystemLoggerInterface;
 use t3n\Flow\HealthStatus\Service\EelRuntime;
 
 class EelTask extends AbstractTask
@@ -27,13 +26,6 @@ class EelTask extends AbstractTask
      * @var EelRuntime
      */
     protected $runtime;
-
-    /**
-     * @Flow\Inject
-     *
-     * @var SystemLoggerInterface
-     */
-    protected $systemLoggerInterface;
 
     /**
      * @param mixed[] $options

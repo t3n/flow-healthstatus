@@ -19,20 +19,12 @@ use Neos\Error\Messages\Notice;
 use Neos\Error\Messages\Result;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
-use Neos\Flow\Log\SystemLoggerInterface;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use Neos\Utility\PositionalArraySorter;
 use t3n\Flow\HealthStatus\Task\TaskInterface;
 
 abstract class AbstractTaskRunner
 {
-    /**
-     * @Flow\Inject
-     *
-     * @var SystemLoggerInterface
-     */
-    protected $systemLogger;
-
     /**
      * @var ObjectManagerInterface
      */
@@ -174,7 +166,6 @@ abstract class AbstractTaskRunner
             }
         } catch (\Throwable $exception) {
             $result->addError(new Error($exception->getMessage(), $exception->getCode()));
-            $this->systemLogger->logException($exception);
         }
 
         $onTaskResult = $this->onTaskResultClosure;
