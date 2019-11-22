@@ -14,17 +14,16 @@ namespace t3n\Flow\HealthStatus\Test;
  * source code.
  */
 
-use Doctrine\Common\Persistence\ObjectManager as DoctrineObjectManager;
-use Doctrine\ORM\EntityManager as DoctrineEntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DoctrineTest extends AbstractTest
 {
     /**
-     * @var DoctrineEntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
-    public function injectEntityManager(DoctrineObjectManager $entityManager): void
+    public function injectEntityManager(EntityManagerInterface $entityManager): void
     {
         $this->entityManager = $entityManager;
     }
