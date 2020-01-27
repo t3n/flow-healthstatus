@@ -1,7 +1,7 @@
 version: 2.1
 
 aliases:
-  - &ci-build-image quay.io/yeebase/ci-build:7.2
+  - &ci-build-image quay.io/yeebase/ci-build:7.3
   - &workspace_root ~/workspace
 
   - &save_composer_cache
@@ -57,7 +57,10 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - checkout
+      - checkout:
+          filters:
+            branches:
+              ignore: /dependabot.*/
       - lint:
           requires:
             - checkout
