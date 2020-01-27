@@ -64,3 +64,16 @@ workflows:
       - lint:
           requires:
             - checkout
+  build_and_test_dependabot:
+    jobs:
+      - hold:
+          type: approval
+          filters:
+            branches:
+              only: /dependabot.*/
+      - checkout:
+          requires:
+            - hold
+      - lint:
+          requires:
+            - checkout
