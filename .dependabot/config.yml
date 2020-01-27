@@ -2,4 +2,4 @@ version: 1
 update_configs:
   - package_manager: "php:composer"
     update_schedule: "weekly"
-    target_branch: "stage"
+    target_branch: "master"
