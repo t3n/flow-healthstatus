@@ -12,8 +12,8 @@
     "t3n/coding-standard": "~1.0.0"
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "3.3.2",
-    "phpunit/phpunit": "~8.4",
+    "squizlabs/php_codesniffer": "^3.3.2",
+    "phpunit/phpunit": "~8.5",
     "mikey179/vfsstream": "~1.6"
   },
   "repositories": {
