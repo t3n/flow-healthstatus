@@ -37,7 +37,7 @@ class ElasticSearchTest extends AbstractTest
             throw new InvalidConfigurationException('ElasticSearchTest depends on FlowPack\ElasticSearch', 1502795288);
         }
 
-        /** @var ElasticSearchFactory $elasicSearchFactory */
+        /** @var ElasticSearchFactory $elasticSearchFactory */
         $elasticSearchFactory = $this->objectManager->get(ElasticSearchFactory::class);
         $elasticSearchClient = $elasticSearchFactory->create();
         $response = $elasticSearchClient->request('GET', '/_cluster/health');
