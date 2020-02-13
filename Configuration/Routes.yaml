@@ -1,0 +1,22 @@
+-
+  name: 'Flow HealthStatus - Ready Chain'
+  uriPattern: '<healthStatusEndpoint>/ready'
+  defaults:
+    '@package':    't3n.Flow.HealthStatus'
+    '@controller': 'HealthStatus'
+    '@action':     'ready'
+    '@format':     'json'
+    'endpoint':    '<healthStatusEndpoint>'
+  httpMethods: [GET]
+
+-
+  name: 'Flow HealthStatus - Liveness Chain'
+  uriPattern: '<healthStatusEndpoint>/live'
+  defaults:
+    '@package':    't3n.Flow.HealthStatus'
+    '@controller': 'HealthStatus'
+    '@action':     'live'
+    '@format':     'json'
+    'endpoint':    '<healthStatusEndpoint>'
+  httpMethods: [GET]
+

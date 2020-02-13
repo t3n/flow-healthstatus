@@ -51,7 +51,7 @@ class ChainHelper implements ProtectedContextAwareInterface
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint
      */
     public function allowsCallOfMethod($methodName): bool
     {

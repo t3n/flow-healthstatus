@@ -100,6 +100,24 @@ _(the `lockName` setting is simply a shorthand for exactly this example)_
 
 To extend the eel context, you can provide additional helpers in `t3n.Flow.HealthStatus.defaultContext`.
 
+## Health status via HTTP-Request
+
+If you'd like to check your Application via HTTP instead of a cli command you can do so by including the Routes in your `Routes.yaml`:
+```yaml
+-
+  name: 'Health-Routes'
+  uriPattern: '<HealthStatusSubroutes>'
+  subRoutes:
+    'HealthStatusSubroutes':
+      package: 't3n.Flow.HealthStatus'
+      variables:
+        'healthStatusEndpoint': 'your-endpoint-name'
+```
+
+Afterwards there will be two new routes: `/<your-endpoint-name>/ready`  and `/<your-endpoint-name>/live`
+Adjust the variable to your needs. Both endpoints will return a JSON formatted output. On a successful run the
+response has a status code 200 and if there are any errors the status code will be 500.
+
 ## Example Configuration
 
 This example could be used in your Flow package to make sure that your application pod has a ready state
