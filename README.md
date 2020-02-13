@@ -18,16 +18,15 @@ Simply execute the flow command `./flow app:isready`.
 This will execute all tests defined in the `t3n.Flow.HealthStatus.testChain` of the Settings.yaml.
 If all tests have passed, the `readyChain` tasks will be executed.
 
-After a successfully run of the ready chain an internal lock will be set to prevent repeated execution,
-so only the `readyChain` will be executed again. The `testChain` will be executed on every run.
-So the readyChain should bring your application in an "ready state". Make sure to initialize everything you need.
-The testChain should ping all services your application depends on.
+After a successfully run of the `readyChain` an internal lock will be set to prevent repeated execution. The `testChain` will be executed on every run.
+So the `readyChain` should bring your application in an "ready state". Make sure to initialize everything you need.
+The `testChain` should ping all services your application depends on.
 
 ### Liveness
 
 Execute `./flow app:isalive` to check if your pod is still alive.
 
-This will execute the `Yeebase.Readiness.livenessChain`.
+This will execute the `livenessChain`.
 
 Currently the liveness chain is empty by default and has one possible test: `statusCode`.
 
