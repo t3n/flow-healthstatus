@@ -136,7 +136,7 @@ t3n:
         redis:
           test: redis
           options:
-            hostmane: your-redis-host
+            hostname: your-redis-host
         beanstalk:
           test: beanstalk
           options:
