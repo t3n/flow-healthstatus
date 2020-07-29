@@ -6,6 +6,7 @@ namespace t3n\Flow\HealthStatus\Test;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
+use Neos\Flow\Core\Booting\Exception\SubProcessException;
 use Neos\Flow\Core\Booting\Scripts;
 use Neos\Flow\Utility\Environment;
 
@@ -28,13 +29,6 @@ class SubCommandTest extends AbstractTest
     protected $environment;
 
     /**
-     * @Flow\InjectConfiguration(package="Neos.Flow", path="core.phpBinaryPathAndFilename")
-     *
-     * @var string
-     */
-    protected $phpBinaryPathAndFilename;
-
-    /**
      * @Flow\InjectConfiguration(package="Neos.Flow")
      *
      * @var string[][]
@@ -54,7 +48,7 @@ class SubCommandTest extends AbstractTest
     }
 
     /**
-     * @throws \Neos\Flow\Core\Booting\Exception\SubProcessException
+     * @throws SubProcessException
      */
     public function test(): bool
     {
@@ -70,12 +64,11 @@ class SubCommandTest extends AbstractTest
      * @param string[] $commandArguments
      * @param string $commandContext the context the sub command runs in
      *
-     * @throws \Neos\Flow\Core\Booting\Exception\SubProcessException
+     * @throws SubProcessException
      */
     private function dispatchCommand(string $commandIdentifier, array $commandArguments = [], string $commandContext = ''): bool
     {
         $this->flowSettings['core']['context'] = $commandContext === '' ? $this->environment->getContext() : $commandContext;
-        $this->flowSettings['core']['phpBinaryPathAndFilename'] = $this->phpBinaryPathAndFilename;
 
         return Scripts::executeCommand($commandIdentifier, $this->flowSettings, true, $commandArguments);
     }
