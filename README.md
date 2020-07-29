@@ -166,7 +166,7 @@ t3n:
               collection: static
       livenessChain:
         home:
-          task: statusCode
+          test: statusCode
           name: 'Homepage responds'
           options:
             url: '/'
