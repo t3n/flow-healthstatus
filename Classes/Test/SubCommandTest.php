@@ -64,6 +64,9 @@ class SubCommandTest extends AbstractTest
             $this->flowSettings['core']['context'] = $commandContext;
         }
 
-        return Scripts::executeCommand($commandIdentifier, $this->flowSettings, true, $commandArguments);
+        ob_start();
+        $result =  Scripts::executeCommand($commandIdentifier, $this->flowSettings, true, $commandArguments);
+        ob_clean();
+        return $result;
     }
 }
