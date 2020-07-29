@@ -35,13 +35,20 @@ class SubCommandTest extends AbstractTest
     protected $phpBinaryPathAndFilename;
 
     /**
+     * @Flow\InjectConfiguration(package="Neos.Flow")
+     *
+     * @var string[][]
+     */
+    protected $flowSettings;
+
+    /**
      * @param mixed[] $options
      *
      * @throws InvalidConfigurationException
      */
     protected function validateOptions(array $options): void
     {
-        if (!isset($options['commandIdentifier'])) {
+        if (! isset($options['commandIdentifier'])) {
             throw new InvalidConfigurationException('The command identifier of the sub-command to execute must be provided', 1596028979);
         }
     }
@@ -67,9 +74,9 @@ class SubCommandTest extends AbstractTest
      */
     private function dispatchCommand(string $commandIdentifier, array $commandArguments = [], string $commandContext = ''): bool
     {
-        $settings['core']['context'] = $commandContext === '' ? $this->environment->getContext() : $commandContext;
-        $settings['core']['phpBinaryPathAndFilename'] = $this->phpBinaryPathAndFilename;
+        $this->flowSettings['core']['context'] = $commandContext === '' ? $this->environment->getContext() : $commandContext;
+        $this->flowSettings['core']['phpBinaryPathAndFilename'] = $this->phpBinaryPathAndFilename;
 
-        return Scripts::executeCommand($commandIdentifier, $settings, true, $commandArguments);
+        return Scripts::executeCommand($commandIdentifier, $this->flowSettings, true, $commandArguments);
     }
 }
