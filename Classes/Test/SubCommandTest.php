@@ -8,7 +8,6 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Configuration\Exception\InvalidConfigurationException;
 use Neos\Flow\Core\Booting\Exception\SubProcessException;
 use Neos\Flow\Core\Booting\Scripts;
-use Neos\Flow\Utility\Environment;
 
 /**
  * This file is part of the t3n.Flow.HealthStatus package.
@@ -21,13 +20,6 @@ use Neos\Flow\Utility\Environment;
  */
 class SubCommandTest extends AbstractTest
 {
-    /**
-     * @Flow\Inject
-     *
-     * @var Environment
-     */
-    protected $environment;
-
     /**
      * @Flow\InjectConfiguration(package="Neos.Flow")
      *
@@ -68,7 +60,9 @@ class SubCommandTest extends AbstractTest
      */
     private function dispatchCommand(string $commandIdentifier, array $commandArguments = [], string $commandContext = ''): bool
     {
-        $this->flowSettings['core']['context'] = $commandContext === '' ? $this->environment->getContext() : $commandContext;
+        if (! empty($commandContext)) {
+            $this->flowSettings['core']['context'] = $commandContext;
+        }
 
         return Scripts::executeCommand($commandIdentifier, $this->flowSettings, true, $commandArguments);
     }
