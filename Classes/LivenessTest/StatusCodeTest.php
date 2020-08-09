@@ -31,7 +31,7 @@ class StatusCodeTest extends AbstractLivenessTest
     {
         $browser = new Browser();
 
-        $browser->setRequestEngine(new CurlEngine());
+        $browser->setRequestEngine($this->buildCurlEngine());
         $browser->setFollowRedirects($this->options['followRedirects'] ?? true);
 
         $uri = $this->options['uri'] ?? $this->baseUri ?? 'http://localhost';
@@ -46,5 +46,23 @@ class StatusCodeTest extends AbstractLivenessTest
         );
 
         return $response->getStatusCode() === ($this->options['statusCode'] ?? 200);
+    }
+
+    private function buildCurlEngine(): CurlEngine
+    {
+        $curlEngine = new CurlEngine();
+        if (! isset($this->options['curlOptions']) || ! is_array($this->options['curlOptions'])) {
+            return $curlEngine;
+        }
+
+        foreach ($this->options['curlOptions'] as $curlOptionKey => $curlOptionValue) {
+            $curlOption = constant($curlOptionKey);
+            if ($curlOption === null) {
+                continue;
+            }
+            $curlEngine->setOption($curlOption, $curlOptionValue);
+        }
+
+        return $curlEngine;
     }
 }
