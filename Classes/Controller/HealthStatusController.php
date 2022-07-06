@@ -42,7 +42,7 @@ class HealthStatusController extends ActionController
             }
         });
 
-        $taskRunner->onTaskResult(static function (TaskInterface $task, Result $result) use (&$success): void {
+        $taskRunner->onTaskResult(static function (TaskInterface $task, Result $result) use (&$errors, &$success): void {
             if ($result->hasErrors()) {
                 $errors[] = [
                     'name' => $task->getName(),
