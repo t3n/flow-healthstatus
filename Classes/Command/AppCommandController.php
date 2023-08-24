@@ -153,7 +153,7 @@ class AppCommandController extends CommandController
         if (! $testResult->hasErrors()) {
             $this->outputLine('<success>Application is alive</success>');
             $this->outputLine();
-            $this->quit(1);
+            $this->quit(0);
         } else {
             $this->outputLine('<error>Application is dead</error>');
             $this->outputLine();
