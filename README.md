@@ -1,4 +1,5 @@
-[![CircleCI](https://circleci.com/gh/t3n/flow-healthstatus.svg?style=svg)](https://circleci.com/gh/t3n/flow-healthstatus) [![Latest Stable Version](https://poser.pugx.org/t3n/flow-healthstatus/v/stable)](https://packagist.org/packages/t3n/flow-healthstatus) [![Total Downloads](https://poser.pugx.org/t3n/flow-healthstatus/downloads)](https://packagist.org/packages/t3n/flow-healthstatus) [![License](https://poser.pugx.org/t3n/flow-healthstatus/license)](https://packagist.org/packages/t3n/flow-healthstatus)
+> [!WARNING]
+> **This plugin is no longer being maintained and there is no superseding package at this time**
 
 # t3n.Flow.HealthStatus
 
