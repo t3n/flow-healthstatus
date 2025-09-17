@@ -1,5 +1,5 @@
 > [!WARNING]
-> **This plugin is no longer being maintained and there is no superseding package at this time**
+> **This plugin is no longer being maintained. As replacement we suggest https://github.com/onivaevents/flow-healthstatus**
 
 # t3n.Flow.HealthStatus
 
