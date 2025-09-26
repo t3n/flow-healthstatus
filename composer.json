@@ -1,6 +1,6 @@
 {
     "abandoned": "oniva/flow-healthstatus",
-    "description": "[ABANDONED] Flow Framework package to check the health status of you application",
+    "description": "[ABANDONED] Flow Framework package to check the health status of you application – check oniva/flow-healthstatus instead.",
     "type": "neos-package",
     "name": "t3n/flow-healthstatus",
     "config": {
